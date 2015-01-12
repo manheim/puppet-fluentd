@@ -20,7 +20,7 @@ describe 'fluentd::match' do
 		}}
 
 		it "should create matcher single segment" do
-            should contain_fluentd__configfile('match-bar').with_content(/<match baz>.*type.*file.*time_slice_wait.*10m.*compress.*gzip.*<\/match>/m)
+      should contain_fluentd__configfile('match-bar').with_content(/<match baz>\s*compress\s*gzip\s*time_slice_wait\s*10m\s*type\s*file\s*<\/match>/m)
 			should_not contain_fluentd__configfile('match-bar').with_content(/server/)
 			should_not contain_fluentd__configfile('match-bar').with_content(/store/)
 		end
