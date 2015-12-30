@@ -2,13 +2,15 @@
 class fluentd::packages (
     $package_name = $fluentd::package_name,
     $install_repo = $fluentd::install_repo,
-    $package_ensure = $fluentd::package_ensure
+    $package_ensure = $fluentd::package_ensure,
+    $version = $fluentd::version
 ){
     if $install_repo {
         case $::osfamily {
             'redhat': {
                 class{'fluentd::install_repo::yum':
-                    before => Package[$package_name],
+                    version => $version,
+                    before  => Package[$package_name],
                 }
             }
             'debian': {
