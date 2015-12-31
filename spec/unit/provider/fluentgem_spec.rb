@@ -22,6 +22,12 @@ describe provider_class do
   end
 
   describe "when installing" do
+    it 'sets the correct PATH environment variable' do
+      provider.expects(:execute).with { |args| args[1] == "install" }.returns ""
+      provider.install
+      expect(ENV['PATH']).to match(%r"^.*:/opt/td-agent/embedded/bin:/usr/lib64/fluent/ruby/bin:/usr/lib/fluent/ruby/bin$")
+    end
+
     it "should use the path to the gem" do
       provider_class.stubs(:command).with(:gemcmd).returns "/my/gem"
       provider.expects(:execute).with { |args| args[0] == "/my/gem" }.returns ""
