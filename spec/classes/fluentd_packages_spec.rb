@@ -13,7 +13,9 @@ describe 'fluentd::packages', :type => :class do
     end
 
     context "with install_repo=>true" do
-      let(:params) { {:install_repo => true} }
+      let(:params) {{
+                      :install_repo => true,
+                    }}
       it do
         should contain_apt__source("treasure-data").with(
           'location'  => 'http://packages.treasuredata.com/debian'
@@ -53,10 +55,11 @@ describe 'fluentd::packages', :type => :class do
 
     context "with install_repo=>true" do
       let(:params) { {:install_repo => true} }
+
       it do
         should contain_yumrepo('treasuredata').with(
           'baseurl'  => 'http://packages.treasuredata.com/2/redhat/$releasever/$basearch',
-          'gpgkey'   => 'http://packages.treasuredata.com/redhat/RPM-GPG-KEY-td-agent',
+          'gpgkey'   => 'https://packages.treasuredata.com/GPG-KEY-td-agent',
           'gpgcheck' => 1
         )
       end
