@@ -5,6 +5,8 @@ class fluentd::packages (
     $package_ensure = $fluentd::package_ensure,
     $version = $fluentd::version
 ){
+    include fluentd::params
+
     if $install_repo {
         case $::osfamily {
             'redhat': {
@@ -24,11 +26,49 @@ class fluentd::packages (
             }
         }
     }
+
     package { "$package_name":
         ensure => $package_ensure
     }
 
-# extra bits... why this is required isn't quite clear.
+    # safely convert to integer
+    if ($::operatingsystemmajrelease == '' or $::operatingsystemmajrelease == undef) {
+      $majver = 0
+    } else {
+      $majver = 0 + $::operatingsystemmajrelease
+    }
+
+    if ($::osfamily == 'RedHat' and $majver >= 7) {
+      # this is a workaround for https://github.com/treasure-data/td-agent/pull/82
+      # and https://github.com/treasure-data/td-agent/issues/87 where the td-agent
+      # RPMs do not yet have a systemd unit file.
+
+      file {'/etc/rc.d/init.d/td-agent':
+        ensure => absent,
+        require => Package[$package_name],
+      }
+
+      file { 'td-agent.service':
+        ensure  => present,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0644',
+        path    => '/etc/systemd/system/td-agent.service',
+        source  => 'puppet:///modules/fluentd/td-agent.service',
+        notify  => Exec['td-agent-systemd-reload'],
+        require => File['/etc/rc.d/init.d/td-agent'],
+      }
+
+      exec {'td-agent-systemd-reload':
+        command     => '/usr/bin/systemctl daemon-reload',
+        user        => 'root',
+        refreshonly => true,
+        require     => File['td-agent.service'],
+        before      => Service[$fluentd::params::service_name],
+      }
+    }
+
+    # extra bits... why this is required isn't quite clear.
     case $::osfamily {
         'debian': {
             package{[

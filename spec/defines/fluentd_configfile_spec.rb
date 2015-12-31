@@ -10,8 +10,9 @@ describe 'fluentd::configfile', :type => :define do
   ['Debian','RedHat'].each do |osfam|
     context "When on an #{osfam} system" do
       let (:facts) {{
-        :osfamily       => osfam,
-        :lsbdistid      => 'Debian', # Concatlib needs this value. Works for RedHat too.
+        :osfamily                  => osfam,
+        :operatingsystemmajrelease => '7',
+        :lsbdistid                 => 'Debian', # Concatlib needs this value. Works for RedHat too.
         }}
       context 'when fed no parameters' do
         let (:title) { 'MyBaconBringsAllTheBoysToTheYard'}

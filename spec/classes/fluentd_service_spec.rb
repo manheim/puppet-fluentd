@@ -5,10 +5,11 @@ describe 'fluentd::service', :type => :class do
   context "On a Debian OS" do
     let :facts do
       {
-        :osfamily               => 'Debian',
-        :operatingsystemrelease => '7',
-        :concat_basedir         => '/tmp',
-        :lsbdistid              => 'Debian',
+        :osfamily                  => 'Debian',
+        :operatingsystemrelease    => '7',
+        :operatingsystemmajrelease => '7',
+        :concat_basedir            => '/tmp',
+        :lsbdistid                 => 'Debian',
       }
     end
     context "td-agent running and enabled" do
@@ -42,10 +43,11 @@ describe 'fluentd::service', :type => :class do
   context "On a Redhat OS" do
     let :facts do
       {
-        :osfamily               => 'RedHat',
-        :operatingsystemrelease => '6.5',
-        :concat_basedir         => '/tmp',
-        :lsbdistid              => 'CentOs',
+        :osfamily                    => 'RedHat',
+        :operatingsystemrelease      => '6.5',
+          :operatingsystemmajrelease => '6',
+        :concat_basedir              => '/tmp',
+        :lsbdistid                   => 'CentOs',
       }
     end
     context "td-agent running and enabled" do

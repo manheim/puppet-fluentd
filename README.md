@@ -10,7 +10,18 @@ Manage Fluentd installation, configuration and Plugin-management with Puppet usi
 - Debian (tested on Debian 7.5) 
 - Ubuntu 
 - Redhat 
-- CentOS (tested on CentOS 6.4)
+- CentOS (tested on CentOS 6.4 and 7.2)
+
+### RedHat 7+ Systemd Note
+
+There is currently an [open pull request](https://github.com/treasure-data/td-agent/pull/82)
+and an [open issue](https://github.com/treasure-data/td-agent/issues/87) on the
+[td-agent GitHub project](https://github.com/treasure-data/td-agent) to include
+systemd unit files for RedHat 7+. As a workaround for these issues, on systems
+where $::osfamily = 'RedHat' and $::operatingsystemmajrelease >= 7, after
+installing the ``td-agent`` RPM, ``/etc/rc.d/init.d/td-agent`` will be removed and
+a proper systemd unit file will be added. This is mainly so that, if you're intending
+to use fluend as the Docker logging driver, you can ensure it starts before Docker.
 
 ## Used Modules 
 

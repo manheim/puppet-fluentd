@@ -5,8 +5,9 @@ describe 'fluentd::match' do
 	let(:title) {'bar'}
 
     let (:facts) {{
-	    :osfamily       => 'Debian',
-	    :lsbdistid      => 'Debian', 
+	    :osfamily                  => 'Debian',
+	    :lsbdistid                 => 'Debian', 
+            :operatingsystemmajrelease => '7',
     }}
 
     context "when no servers or out_copy" do
