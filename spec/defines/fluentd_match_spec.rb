@@ -38,7 +38,7 @@ describe 'fluentd::match' do
 		}}
 
 		it "should create matcher with server" do
-        should contain_fluentd__configfile('match-bar').with_content(/<match baz>\s*compress\s*gzip\s*<server>.*port.*24224.*host kelis.*<\/server>.*<server>.*port.*24224.*host.*bossy.*<\/server>.*time_slice_wait.*10m.*type.*file.*<\/match>/m)
+        should contain_fluentd__configfile('match-bar').with_content(/<match baz>\s*compress\s*gzip\s*<server>.*host kelis.*port.*24224.*<\/server>.*<server>.*host.*bossy.*port.*24224.*<\/server>.*time_slice_wait.*10m.*type.*file.*<\/match>/m)
         should contain_fluentd__configfile('match-bar').with_content(/server/)
         should_not contain_fluentd__configfile('match-bar').with_content(/store/)
 		end
@@ -61,7 +61,7 @@ describe 'fluentd::match' do
 		}}
 
 		it "should create matcher with server" do
-        should contain_fluentd__configfile('match-bar').with_content(/<match baz>.*type.*copy.*<store>.*compress.*gzip.*<server>.*port.*24224.*host.*kelis.*<\/server>.*<server>.*port.*24224.*host.*bossy.*<\/server>.*type.*file.*<\/store>.*<store>.*database.*dummy.*type.*mongo.*<\/store>.*<\/match>/m)
+        should contain_fluentd__configfile('match-bar').with_content(/<match baz>.*type.*copy.*<store>.*compress.*gzip.*<server>.*host.*kelis.*port.*24224.*<\/server>.*<server>.*host.*bossy.*port.*24224.*<\/server>.*type.*file.*<\/store>.*<store>.*database.*dummy.*type.*mongo.*<\/store>.*<\/match>/m)
     end
 	end
 
