@@ -15,6 +15,7 @@ class fluentd::packages (
             }
             'debian': {
                 class{'fluentd::install_repo::apt':
+                    version => $version,
                     before => Package[$package_name],
                 }
             }

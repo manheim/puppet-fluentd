@@ -3,10 +3,18 @@
 # Class: fluentd::install_repo::apt ()
 #
 #
-class fluentd::install_repo::apt () {
+class fluentd::install_repo::apt (
+    $version = $fluentd::params::version
+) {
+
+    if ($version == '1') {
+        $baseurl = 'http://packages.treasuredata.com/debian'
+    } else {
+        $baseurl = "http://packages.treasuredata.com/${version}/debian"
+    }
 
     apt::source { 'treasure-data':
-        location    => "http://packages.treasuredata.com/debian",
+        location    => $baseurl,
         release     => "lucid",
         repos       => "contrib",
         include_src => false,

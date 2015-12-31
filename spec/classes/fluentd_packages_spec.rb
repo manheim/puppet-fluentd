@@ -25,6 +25,21 @@ describe 'fluentd::packages', :type => :class do
         )
       end
     end
+
+    context "with install_repo=>true and version=>2" do
+      let(:params) {{
+                      :install_repo => true,
+                      :package_name   => 'td-agent',
+                      :package_ensure => 'running',
+                      :version        => '2',
+                    }}
+      it do
+        should contain_apt__source("treasure-data").with(
+          'location'  => 'http://packages.treasuredata.com/2/debian'
+        )
+      end
+    end
+
     it { should contain_package("libxslt1.1").with(
       'ensure'  => 'installed'
       )
@@ -66,6 +81,22 @@ describe 'fluentd::packages', :type => :class do
       it do
         should contain_yumrepo('treasuredata').with(
           'baseurl'  => 'http://packages.treasuredata.com/redhat/$basearch',
+          'gpgkey'   => 'http://packages.treasuredata.com/redhat/RPM-GPG-KEY-td-agent',
+          'gpgcheck' => 1
+        )
+      end
+    end
+
+    context "with install_repo=>true and version=>2" do
+      let(:params) {{
+                      :install_repo   => true,
+                      :package_name   => 'td-agent',
+                      :package_ensure => 'running',
+                      :version        => '2',
+                    }}
+      it do
+        should contain_yumrepo('treasuredata').with(
+          'baseurl'  => 'http://packages.treasuredata.com/2/redhat/$releasever/$basearch',
           'gpgkey'   => 'http://packages.treasuredata.com/redhat/RPM-GPG-KEY-td-agent',
           'gpgcheck' => 1
         )

@@ -10,6 +10,7 @@ class fluentd::install_repo::yum (
 
     # Sorry for the different naming of the Repository between debian and redhat.
     # But I dont want rename it to avoid a duplication.
+
     if ($version == '1') {
         $baseurl = 'http://packages.treasuredata.com/redhat/$basearch'
     } else {
