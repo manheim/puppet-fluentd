@@ -1,15 +1,13 @@
 # == definition fluentd::forest_match
 define fluentd::forest_match (
-    $configfile,
-    $type,
-    $pattern,
-    $config   = {},
-    $servers  = [],
+  $ensure   = present,
+  $config   = {},
+  $priority = 50,
+  $pattern,
 ) {
-
-    concat::fragment { "match_${title}":
-        target  => "/etc/td-agent/config.d/${configfile}.conf",
-        require => Package["${fluentd::package_name}"],
-        content => template('fluentd/forest_match.erb'),
-    }
+  fluentd::configfile { "match-${name}":
+    ensure   => $ensure,
+    content  => template( 'fluentd/forest_match.erb' ),
+    priority => $priority,
+  }
 }
