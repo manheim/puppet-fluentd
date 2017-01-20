@@ -40,7 +40,7 @@ describe 'fluentd::packages', :type => :class do
       {
         :package_name => 'td-agent',
         :package_ensure => 'running',
-      } 
+      }
     end
 
     let :facts do
@@ -50,12 +50,12 @@ describe 'fluentd::packages', :type => :class do
     end
 
     it { should contain_class('fluentd::packages')}
-    
+
     context "with install_repo=>true" do
       let(:params) { {:install_repo => true} }
       it do
         should contain_yumrepo('treasuredata').with(
-          'baseurl'  => 'http://packages.treasuredata.com/redhat/$basearch',
+          'baseurl'  => 'http://packages.treasuredata.com/2/redhat/$releasever/$basearch',
           'gpgkey'   => 'http://packages.treasuredata.com/redhat/RPM-GPG-KEY-td-agent',
           'gpgcheck' => 1
         )
